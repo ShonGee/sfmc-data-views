@@ -70,10 +70,22 @@ from (
         select
         t.SubscriberID
         from Click t
-        where t.jobid = e.jobid
-        and t.subscriberid = e.subscriberid
-        and t.eventDate = e.eventDate
-        and t.LinkContent = e.LinkContent
+        where  t.AccountID	 = e.AccountID
+and t.OYBAccountID = e.OYBAccountID
+and t.JobID = e.JobID
+and t.ListID = e.ListID
+and t.BatchID = e.BatchID
+and t.SubscriberID = e.SubscriberID
+and t.SubscriberKey = e.SubscriberKey
+and t.EventDate = e.EventDate
+and t.Domain = e.Domain
+and t.URL = e.URL
+and t.LinkName = e.LinkName
+and t.LinkContent = e.LinkContent
+and t.IsUnique = e.IsUnique
+and t.TriggererSendDefinitionObjectID = e.TriggererSendDefinitionObjectID
+and t.TriggeredSendCustomerKey = e.TriggeredSendCustomerKey
+
      )
 ) x
 where x.row = 1
