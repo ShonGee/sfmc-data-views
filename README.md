@@ -9,3 +9,5 @@ Salesforce Marketing Cloud Data View SOAP Envelopes
 	1. {{soapEndPoint}} - your Endpoint from the list [here](https://developer.salesforce.com/docs/atlas.en-us.noversion.mc-apis.meta/mc-apis/wsdl-endpoint-links.htm)
 1. Change the folder location ```<CategoryID>5348</CategoryID>``` to the relevant location (use browser developer tools to find the folder id), or comment out the folder
 1. Run each SOAP call. 
+1. Create an Automation with the SQL queries in ```Data_Views.sql``` 
+	1. Most queries are to be used with Update, except where noted otherwise
