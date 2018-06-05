@@ -1,0 +1,80 @@
+var id = [];
+	var fieldName = [];
+	var fieldType = [];
+	var maxLength = [];
+	var isRequired = [];
+
+	$('tbody').last().each(function(i, obj) {
+
+		console.log(obj)
+		$("td:nth-child(1)", this).each(function(i, obj) {
+		
+		if ($("i", this).hasClass('is-primary-key')) {
+			id.push('<IsPrimaryKey>true</IsPrimaryKey>');
+		} else {
+			id.push('<IsPrimaryKey>false</IsPrimaryKey>');
+		}
+	
+	});
+
+
+	$("td:nth-child(2)", this).each(function(i, obj) {
+	
+		name = $(this).text().trim();
+		fieldName.push(`<CustomerKey>${name}</CustomerKey>\n<Name>${name}</Name>`);
+		
+		$("i", this).each(function(i, obj) {
+			if($(this).hasClass('type-boolean')	) {
+				fieldType.push('<FieldType>Boolean</FieldType>');
+			} else if ($(this).hasClass('type-text')) {
+				fieldType.push('<FieldType>Text</FieldType>');
+			} else if ($(this).hasClass('type-date')) {
+				fieldType.push('<FieldType>Date</FieldType>');
+			} else if ($(this).hasClass('type-emailaddress')) {
+				fieldType.push('<FieldType>EmailAddress</FieldType>');
+			} else if ($(this).hasClass('type-phone')) {
+				fieldType.push('<FieldType>Phone</FieldType>');
+			} else if ($(this).hasClass('type-decimal')) {
+				fieldType.push('<FieldType>Decimal</FieldType>\n<MaxLength>18</MaxLength>\n<Scale>2</Scale>');
+			} else if ($(this).hasClass('type-number')) {
+				fieldType.push('<FieldType>Number</FieldType>');
+			} 
+			});
+
+		});
+
+		$("td:nth-child(4)", this).each(function(i, obj) {
+		
+		 	length = $(this).text();
+		 	if (length.length > 0) {
+		 		maxLength.push(`<MaxLength>${length}</MaxLength>`);
+		 	} else {
+		 		maxLength.push("");
+		 	}
+		
+		});
+
+		$("td:nth-child(5)", this).each(function(i, obj) {
+		
+		 	required = $(this).text();
+		 	if (required === 'Yes') {
+		 		isRequired.push(`<IsRequired>false</IsRequired>`);
+		 	} else {
+		 		isRequired.push(`<IsRequired>true</IsRequired>`);
+		 	}
+		
+		});
+	
+	});
+				var DEName = $('.breadcrumb > li:last-child').html()
+    			var xmlheader = `<?xml version="1.0" encoding="UTF-8"?>\n<s:Envelope xmlns:s="http://www.w3.org/2003/05/soap-envelope" xmlns:a="http://schemas.xmlsoap.org/ws/2004/08/addressing" xmlns:u="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd">\n<s:Header>\n<a:Action s:mustUnderstand="1">Create</a:Action>\n<a:MessageID>urn:uuid:7e0cca04-57bd-4481-864c-6ea8039d2ea0</a:MessageID>\n<a:ReplyTo>\n<a:Address>http://schemas.xmlsoap.org/ws/2004/08/addressing/role/anonymous</a:Address>\n</a:ReplyTo>\n<a:To s:mustUnderstand="1">{{soapEndPoint}}</a:To>\n<o:Security xmlns:o="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd" s:mustUnderstand="1">\n<o:UsernameToken>\n<o:Username>{{soapUsername}}</o:Username>\n<o:Password><![CDATA[{{soapPassword}}]]></o:Password>\n</o:UsernameToken>\n</o:Security>\n</s:Header>\n<s:Body xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">\n<CreateRequest xmlns="http://exacttarget.com/wsdl/partnerAPI">\n<Objects xsi:type="DataExtension">\n<CustomerKey>${DEName}</CustomerKey>\n<Name>${DEName}</Name>\n<CategoryID>5279</CategoryID>\n<IsSendable>false</IsSendable>\n<Fields>\n`
+    		var xml = "";
+    		var xmlfooter = '</Fields></Objects>\n</CreateRequest>\n</s:Body>\n</s:Envelope>'
+    		for (i = 0; i < id.length; i++) { 
+
+    			xml = xml + `<Field>\n${fieldName[i]}\n${fieldType[i]}\n${maxLength[i]}\n${isRequired[i]}\n${id[i]}\n</Field>\n`;
+			   
+			}
+				xmlfull = `${xmlheader}${xml}${xmlfooter}`;
+
+				console.log(xmlfull) ;
